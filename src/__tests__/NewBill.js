@@ -20,6 +20,7 @@ describe("Given I am connected as an employee", () => {
   describe("When I go to the NewBill page ", () => {
     test("Then the newBill page should rendered ", () => {
       expect(screen.getAllByText("Envoyer une note de frais")).toBeTruthy();
+
       expect(screen.getByTestId("form-new-bill").toBeTruthy());
     });
   });

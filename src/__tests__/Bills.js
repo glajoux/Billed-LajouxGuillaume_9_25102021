@@ -4,12 +4,20 @@ import { bills } from "../fixtures/bills.js";
 import firebase from "../__mocks__/firebase.js";
 
 describe("Given I am connected as an employee", () => {
-  describe("When I am on Bills Page", () => {
-    test("Then bill icon in vertical layout should be highlighted", () => {
-      const html = BillsUI({ data: [] });
+  describe("When I try to connect on Bills Page", () => {
+    test("Then it's loading", () => {
+      const html = BillsUI({ loading: true });
       document.body.innerHTML = html;
-      //to-do write expect expression
+      expect(screen.getAllByText("Loading...")).toBeTruthy();
     });
+    test("Then there is an error", () => {
+      const html = BillsUI({ error: "Oups, une erreur" });
+      document.body.innerHTML = html;
+      expect(screen.getAllByText("Erreur")).toBeTruthy();
+    });
+  });
+
+  describe("When I am connected on Bills Page", () => {
     test("Then bills should be ordered from earliest to latest", () => {
       const html = BillsUI({ data: bills });
       document.body.innerHTML = html;
@@ -21,6 +29,11 @@ describe("Given I am connected as an employee", () => {
       const antiChrono = (a, b) => (a < b ? 1 : -1);
       const datesSorted = [...dates].sort(antiChrono);
       expect(dates).toEqual(datesSorted);
+    });
+    describe("When I click on the newBill button", () => {
+      test("Then a form is rendered", () => {
+        const html = BillsUI({ data: bills });
+      });
     });
   });
 });

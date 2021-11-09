@@ -1,7 +1,11 @@
 import { screen } from "@testing-library/dom";
+import "@testing-library/jest-dom";
 import BillsUI from "../views/BillsUI.js";
 import { bills } from "../fixtures/bills.js";
+import Bills from "../containers/Bills.js";
 import firebase from "../__mocks__/firebase.js";
+import { ROUTES } from "../constants/routes.js";
+import userEvent from "@testing-library/user-event";
 
 describe("Given I am connected as an employee", () => {
   describe("When I try to connect on Bills Page", () => {
@@ -33,6 +37,49 @@ describe("Given I am connected as an employee", () => {
     describe("When I click on the newBill button", () => {
       test("Then a form is rendered", () => {
         const html = BillsUI({ data: bills });
+        document.body.innerHTML = html;
+
+        const onNavigate = (pathname) => {
+          document.body.innerHTML = ROUTES({ pathname });
+        };
+
+        const newBills = new Bills({
+          document,
+          onNavigate,
+          firestore: null,
+          localStorage: null,
+        });
+        const handleClickNewBill = jest.spyOn(newBills, "handleClickNewBill");
+        const newBillBtn = screen.getByTestId("btn-new-bill");
+        userEvent.click(newBillBtn);
+        expect(handleClickNewBill).toHaveBeenCalled();
+        expect(screen.getByTestId("form-new-bill")).toBeInTheDocument();
+      });
+    });
+    describe("When I click on eye button", () => {
+      test("Then it should rendered a modal", () => {
+        const html = BillsUI({ data: bills });
+        document.body.innerHTML = html;
+
+        const onNavigate = (pathname) => {
+          document.body.innerHTML = ROUTES({ pathname });
+        };
+
+        const newBills = new Bills({
+          document,
+          onNavigate,
+          firestore: null,
+          localStorage: null,
+        });
+        $.fn.modal = jest.fn();
+        const eyes = screen.getAllByTestId("icon-eye");
+        const handleClickIconEye = jest.fn(newBills.handleClickIconEye);
+        eyes.forEach((eye) => {
+          eye.addEventListener("click", handleClickIconEye(eye));
+        });
+        userEvent.click(eyes[0]);
+        expect(handleClickIconEye).toBeCalled();
+        expect(screen.getByText("Justificatif")).toBeInTheDocument();
       });
     });
   });

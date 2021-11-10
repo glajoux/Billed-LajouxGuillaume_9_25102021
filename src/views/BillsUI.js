@@ -47,13 +47,16 @@ export default ({ data: bills, loading, error }) => {
     return ErrorPage(error);
   }
 
-  let billsSorted = bills;
-  billsSorted.sort(function (a, b) {
-    let c = new Date(a.date);
-    let d = new Date(b.date);
-    return d - c;
-  });
-  console.log(billsSorted);
+  let billsSorted;
+
+  if (bills) {
+    billsSorted = [...bills];
+    billsSorted.sort(function (a, b) {
+      let c = new Date(a.date);
+      let d = new Date(b.date);
+      return d - c;
+    });
+  }
 
   return `
     <div class='layout'>

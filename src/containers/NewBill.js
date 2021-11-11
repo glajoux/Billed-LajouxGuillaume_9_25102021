@@ -47,6 +47,7 @@ export default class NewBill {
   };
   handleSubmit = (e) => {
     e.preventDefault();
+    console.log(e.target);
     console.log(
       'e.target.querySelector(`input[data-testid="datepicker"]`).value',
       e.target.querySelector(`input[data-testid="datepicker"]`).value

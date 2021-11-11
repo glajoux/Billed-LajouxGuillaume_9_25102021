@@ -77,7 +77,6 @@ describe("Given I am connected as an employee", () => {
     describe("When I click on submit button", () => {
       test("Then it should create a new bill", () => {
         newBill.createBill = (bill) => bill;
-
         const validBill = {
           type: "Transports",
           name: "validBill",
@@ -89,19 +88,17 @@ describe("Given I am connected as an employee", () => {
           filName: "billTest.jpg",
           fileUrl: "https://test.com/billTest.jpg",
         };
-
-        const submit = screen.getByRole("button");
+        const submit = screen.getByTestId("form-new-bill");
         const handleSubmit = jest.spyOn(newBill, "handleSubmit");
-
-        // screen.getByTestId("expense-type").value = validBill.type;
-        // screen.getByTestId("expense-name").value = validBill.name;
-        // screen.getByTestId("datepicker").value = validBill.date;
-        // screen.getByTestId("amount").value = validBill.amount;
-        // screen.getByTestId("pct").value = validBill.pct;
-        // screen.getByTestId("vat").value = validBill.vat;
-        // screen.getByTestId("commentary").value = validBill.commentary;
-        // newBill.filName = validBill.filName;
-        // newBill.fileUrl = validBill.fileUrl;
+        screen.getByTestId("expense-type").value = validBill.type;
+        screen.getByTestId("expense-name").value = validBill.name;
+        screen.getByTestId("datepicker").value = validBill.date;
+        screen.getByTestId("amount").value = validBill.amount;
+        screen.getByTestId("pct").value = validBill.pct;
+        screen.getByTestId("vat").value = validBill.vat;
+        screen.getByTestId("commentary").value = validBill.commentary;
+        newBill.filName = validBill.filName;
+        newBill.fileUrl = validBill.fileUrl;
 
         submit.addEventListener("click", handleSubmit);
         userEvent.click(submit);

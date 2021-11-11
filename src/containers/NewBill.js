@@ -77,8 +77,6 @@ export default class NewBill {
       errorSubmit.classList.remove("errorSubmit-display");
       this.createBill(bill);
       this.onNavigate(ROUTES_PATH["Bills"]);
-    } else {
-      errorSubmit.classList.add("errorSubmit-display");
     }
   };
 
